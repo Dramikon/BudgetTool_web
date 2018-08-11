@@ -1,0 +1,31 @@
+<div *mobxAutorun="{ dontDetach: true }">
+  <mat-card>
+    <mat-card-header>
+      How much you spent?
+    </mat-card-header>
+    <mat-card-content>
+      <div class="group">
+        <mat-form-field>
+          <input matInput [(ngModel)]="spendingToAdd.value" type="number" placeholder="How much you spent" min="1">
+        </mat-form-field>
+
+        <ng-container *ngIf="store.state.spendingTypes?.length">
+
+          <mat-button-toggle-group name="spendType"
+                                   [(ngModel)]="spendingToAdd.type"
+                                   aria-label="Select Type of Spending">
+            <ng-container *ngFor="let type of store.state.spendingTypes">
+              <mat-button-toggle [value]="type.name">{{type.name}}</mat-button-toggle>
+            </ng-container>
+          </mat-button-toggle-group>
+        </ng-container>
+        <p class="empty-table-message" *ngIf="!store.state.spendingTypes?.length">No spending types added</p>
+        <mat-form-field>
+          <input matInput [(ngModel)]="spendingToAdd.comment" placeholder="Optional comment">
+        </mat-form-field>
+        <button [disabled]="!spendingToAdd.type || spendingToAdd.value <= 0"
+                mat-raised-button color="primary" (click)="addSum()">Add Sum</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
